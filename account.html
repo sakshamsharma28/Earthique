@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account Dashboard – Earthique</title>
+  <meta name="description" content="Manage your Earthique account profile details, view past orders, track live packages, and review earned reward points.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar & Header -->
+  <div id="announcement-bar"></div>
+  <header id="main-header" class="main-header"></header>
+
+  <!-- ==========================================
+       My Account Header
+       ========================================== -->
+  <div class="policy-page-header">
+    <div class="container text-center">
+      <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; color:var(--color-sage-dark); font-weight:600;">Welcome Back</span>
+      <h1 style="font-family:var(--font-serif); margin-top:0.5rem; margin-bottom:1rem;">My Account</h1>
+      <p style="max-width:600px; margin:0 auto;">Manage your profile, track your organic shipments, and check your rewards balance.</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       My Account Layout
+       ========================================== -->
+  <div class="container section-padding" id="account-page-view" style="padding-top:0; min-height:55vh;">
+    <div class="account-layout">
+      <!-- Left: Sidebar menu -->
+      <aside class="account-sidebar-menu">
+        <button class="account-menu-btn active" onclick="switchAccountTab('pane-dashboard', this)">
+          <span>👤</span> Dashboard
+        </button>
+        <button class="account-menu-btn" onclick="switchAccountTab('pane-orders', this)">
+          <span>📦</span> Order History
+        </button>
+        <button class="account-menu-btn" onclick="switchAccountTab('pane-addresses', this)">
+          <span>🏠</span> Saved Addresses
+        </button>
+        <button class="account-menu-btn" id="account-sidebar-logout" style="color:var(--color-danger)">
+          <span>🚪</span> Log Out
+        </button>
+      </aside>
+
+      <!-- Right: Main card container -->
+      <div class="account-content-card">
+        <!-- Pane 1: Dashboard -->
+        <div class="account-pane active" id="pane-dashboard">
+          <h3 style="font-family:var(--font-serif); font-size:1.8rem; margin-bottom:1.5rem">Welcome, <span id="profile-name">User</span>!</h3>
+          <p style="margin-bottom:2rem">From your dashboard, you can view your recent orders, manage your shipping addresses, and review membership benefits.</p>
+          
+          <div class="grid" style="grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:3rem">
+            <!-- Points Box -->
+            <div style="background-color:var(--color-sage-light); padding:2rem; border-radius:8px; border:1px solid var(--color-border)">
+              <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--color-sage-dark); letter-spacing:1px">Rewards Club</span>
+              <h4 style="font-family:var(--font-serif); font-size:2.2rem; margin:0.5rem 0 0.2rem 0; color:var(--color-sage-dark)">350 pts</h4>
+              <p style="font-size:0.8rem">Tier Level: <strong>Sage Member</strong></p>
+            </div>
+            
+            <!-- Email Info -->
+            <div style="background-color:var(--color-beige); padding:2rem; border-radius:8px; border:1px solid var(--color-border)">
+              <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--color-gray); letter-spacing:1px">Login Credentials</span>
+              <h4 id="profile-email" style="font-size:1rem; margin:0.8rem 0; font-weight:600">user@email.com</h4>
+              <a href="#" style="font-size:0.8rem; text-decoration:underline; font-weight:600">Change Password</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 2: Orders list -->
+        <div class="account-pane" id="pane-orders">
+          <h3 style="font-family:var(--font-serif); font-size:1.8rem; margin-bottom:1.5rem">Your Order History</h3>
+          <div class="order-history-list" id="orders-history-list">
+            <!-- Loaded dynamically from app.js -->
+          </div>
+        </div>
+
+        <!-- Pane 3: Saved Addresses -->
+        <div class="account-pane" id="pane-addresses">
+          <h3 style="font-family:var(--font-serif); font-size:1.8rem; margin-bottom:1.5rem">Shipping Coordinates</h3>
+          <p style="margin-bottom:2rem">The following address is used by default for carbon-neutral shipping.</p>
+          
+          <div style="border:1px solid var(--color-border); border-radius:8px; padding:2rem; max-width:400px; position:relative">
+            <span style="position:absolute; right:1.5rem; top:1.5rem; font-size:0.7rem; background-color:var(--color-sage-light); color:var(--color-sage-dark); padding:0.2rem 0.5rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px">Default</span>
+            <h4 style="font-size:1rem; font-weight:600; margin-bottom:0.8rem">Primary Delivery Residence</h4>
+            <p style="font-size:0.9rem; line-height:1.6">12, Eco-Hills Corporate Park, Sylvan Greens Road, Sector 62, Gurgaon, Haryana — 122011</p>
+            <div class="flex" style="gap:1rem; margin-top:1.5rem; font-size:0.8rem; font-weight:600">
+              <a href="#" style="text-decoration:underline">Edit Address</a>
+              <a href="#" style="color:var(--color-gray)">Remove</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="main-footer section-padding"></footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="blogs.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Connect logout button in account page sidebar to global logout
+      const logout = document.getElementById("account-sidebar-logout");
+      if (logout) {
+        logout.addEventListener("click", () => {
+          localStorage.removeItem("earthique_user");
+          showToast("Logged out successfully", "info");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

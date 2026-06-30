@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout – Earthique Premium Skincare</title>
+  <meta name="description" content="Securely check out your premium skincare selection. Save your billing details and complete your natural skincare order." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- Stripe.js (test mode) -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+  <!-- Announcement Bar & Header -->
+  <div id="announcement-bar"></div>
+  <header id="main-header" class="main-header"></header>
+
+  <!-- Checkout Header -->
+  <div class="policy-page-header">
+    <div class="container text-center">
+      <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; color:var(--color-sage-dark); font-weight:600;">Secure Checkout</span>
+      <h1 style="font-family:var(--font-serif); margin-top:0.5rem; margin-bottom:1rem;">Complete Your Order</h1>
+      <p style="max-width:600px; margin:0 auto;">Enter your shipping details below. An order confirmation invoice will be dispatched to your email address.</p>
+    </div>
+  </div>
+
+  <!-- Main Checkout Container -->
+  <main class="container section-padding" style="padding-top:0; min-height: 55vh;">
+    <div class="grid" style="grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: start;">
+      
+      <!-- Left: Checkout Form -->
+      <div class="form-card" style="max-width: 100%; margin: 0;">
+        <h3 class="form-title" style="font-family:var(--font-serif); font-size:1.8rem; margin-bottom:1.5rem; text-align:left;">Checkout Contact</h3>
+        
+        <form id="checkout-form">
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="yourname@email.com" required />
+          </div>
+
+
+
+          <button type="submit" class="btn btn-primary" style="width:100%; height:50px; margin-top:1rem;">Pay ₹<span id="checkout-btn-total">0</span> (Test Mode)</button>
+        </form>
+      </div>
+
+      <!-- Right: Order Summary Card -->
+      <div>
+        <div class="cart-summary-card">
+          <h3 class="cart-summary-title">Your Order</h3>
+          
+          <!-- Order Summary Items List -->
+          <div id="checkout-items-list" style="margin-bottom:2rem; max-height:250px; overflow-y:auto; padding-right:0.5rem;">
+            <!-- Rendered by JS -->
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>GST (18% Mock Included)</span>
+            <span id="checkout-tax">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="checkout-shipping">FREE</span>
+          </div>
+          
+          <div class="summary-row total" style="margin-bottom: 0;">
+            <span>Total Amount</span>
+            <span id="checkout-grand-total">₹0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="main-footer section-padding"></footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="blogs.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load cart from localStorage
+      const cart = JSON.parse(localStorage.getItem('earthique_cart') || '[]');
+      const itemsList = document.getElementById('checkout-items-list');
+      const subtotalLabel = document.getElementById('checkout-subtotal');
+      const taxLabel = document.getElementById('checkout-tax');
+      const shippingLabel = document.getElementById('checkout-shipping');
+      const grandTotalLabel = document.getElementById('checkout-grand-total');
+      const btnTotalLabel = document.getElementById('checkout-btn-total');
+      
+      if (cart.length === 0) {
+        itemsList.innerHTML = '<p style="color:var(--color-gray);">Your cart is empty. Please add items to checkout.</p>';
+        setTimeout(() => {
+          window.location.href = 'shop.html';
+        }, 2000);
+        return;
+      }
+      
+      // Calculate subtotals
+      let subtotal = 0;
+      cart.forEach(item => {
+        subtotal += item.price * item.qty;
+      });
+      
+      const tax = Math.round(subtotal * 0.18);
+      const shipping = subtotal >= 999 ? 0 : 99;
+      const total = subtotal + shipping;
+      
+      // Render Summary Items List
+      itemsList.innerHTML = cart.map(item => `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--color-border); padding-bottom:0.8rem; font-size:0.9rem;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <img src="${item.image}" alt="${item.name}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;" />
+            <div>
+              <h5 style="margin:0; font-family:var(--font-sans); font-size:0.9rem; font-weight:500;">${item.name}</h5>
+              <span style="font-size:0.75rem; color:var(--color-gray);">Qty: ${item.qty}</span>
+            </div>
+          </div>
+          <span style="font-weight:600;">₹${item.price * item.qty}</span>
+        </div>
+      `).join('');
+      
+      // Update Summary Labels
+      subtotalLabel.innerText = '₹' + subtotal;
+      taxLabel.innerText = '₹' + tax;
+      shippingLabel.innerText = shipping === 0 ? 'FREE' : '₹' + shipping;
+      grandTotalLabel.innerText = '₹' + total;
+      btnTotalLabel.innerText = total;
+      
+      // Pre-fill email from logged in user if available
+      const user = JSON.parse(localStorage.getItem('earthique_user'));
+      if (user && user.email) {
+        document.getElementById('email').value = user.email;
+      }
+
+
+      
+      // Form Submission
+      const form = document.getElementById('checkout-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        
+        const orderItems = cart.map(item => ({
+          name: item.name,
+          price: item.price,
+          qty: item.qty
+        }));
+        
+        // Prepare payload matching the Order model
+        const orderPayload = {
+          email: email,
+          items: orderItems,
+          total: total
+        };
+        
+        try {
+          const response = await fetch('http://localhost:5000/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderPayload)
+          });
+          
+          if (response.ok) {
+            const savedOrder = await response.json();
+            const orderNum = "EQ-" + savedOrder._id.slice(-6).toUpperCase();
+            
+            // If the server gave us an Ethereal preview URL (simulated fake email for demo purposes), open it
+            if (savedOrder.previewUrl) {
+              window.open(savedOrder.previewUrl, '_blank');
+            }
+            
+            // Build order object for tracking
+            const userOrder = {
+              orderNumber: orderNum,
+              date: new Date().toLocaleDateString(),
+              status: "Placed",
+              total: total,
+              items: cart
+            };
+            
+            // Save to localStorage orders list
+            let localOrders = JSON.parse(localStorage.getItem('earthique_orders') || '[]');
+            localOrders.push(userOrder);
+            localStorage.setItem('earthique_orders', JSON.stringify(localOrders));
+            
+            // Clear cart
+            localStorage.removeItem('earthique_cart');
+            
+            // Show custom success feedback
+            showToast('Order submitted successfully! Confirmation email sent.', 'success');
+            
+            // Redirect to tracking page
+            setTimeout(() => {
+              window.location.href = `tracking.html?orderId=${orderNum}`;
+            }, 2500);
+            
+          } else {
+            const errorMsg = await response.text();
+            throw new Error(errorMsg || 'Failed to submit order.');
+          }
+        } catch (err) {
+          console.error('API submit failed, falling back to offline checkout simulated workflow:', err);
+          
+          // Fallback flow: simulate checkout so users can still test it without running backend
+          const orderNum = "EQ-" + Math.floor(100000 + Math.random() * 900000);
+          const userOrder = {
+            orderNumber: orderNum,
+            date: new Date().toLocaleDateString(),
+            status: "Placed",
+            total: total,
+            items: cart
+          };
+          
+          let localOrders = JSON.parse(localStorage.getItem('earthique_orders') || '[]');
+          localOrders.push(userOrder);
+          localStorage.setItem('earthique_orders', JSON.stringify(localOrders));
+          
+          localStorage.removeItem('earthique_cart');
+          
+          showToast('Order saved (offline mode). Start port 5000 API for real email triggers.', 'info');
+          
+          setTimeout(() => {
+            window.location.href = `tracking.html?orderId=${orderNum}`;
+          }, 3000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

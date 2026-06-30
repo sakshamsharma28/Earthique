@@ -1,0 +1,39 @@
+:root {
+  --bg-video-url: url('https://www.w3schools.com/howto/rain.mp4');
+}
+
+/* Container to hold video */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Video styling */
+.bg-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Fallback background color */
+body {
+  background: #111;
+}
+
+/* Trailing circle cursor */
+.trailing-circle {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+  z-index: 9999;
+}

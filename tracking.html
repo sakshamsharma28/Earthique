@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Tracking: Shipping Updates – Earthique</title>
+  <meta name="description" content="Track your Earthique skincare delivery. Enter your tracking code to view shipping details, processing stages, and estimated delivery dates.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar & Header -->
+  <div id="announcement-bar"></div>
+  <header id="main-header" class="main-header"></header>
+
+  <!-- ==========================================
+       Order Tracking Header
+       ========================================== -->
+  <div class="policy-page-header">
+    <div class="container text-center">
+      <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; color:var(--color-sage-dark); font-weight:600;">Delivery Status</span>
+      <h1 style="font-family:var(--font-serif); margin-top:0.5rem; margin-bottom:1rem;">Track Your Order</h1>
+      <p style="max-width:600px; margin:0 auto;">Monitor the path of your eco-friendly botanical packages directly to your doorstep.</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Tracking Card Layout
+       ========================================== -->
+  <div class="container section-padding" id="tracking-page-view" style="padding-top:0; min-height:55vh;">
+    <div class="tracking-card">
+      <h3 style="font-family:var(--font-serif); font-size:1.8rem; margin-bottom:1.5rem; text-align:center">Find Shipment Status</h3>
+      <p style="text-align:center; color:var(--color-gray); margin-bottom:2.5rem">Enter the tracking number sent to your email (e.g. <strong>EQ-123456</strong>) to display your order's timeline.</p>
+      
+      <form onsubmit="handleTrackingSubmit(event)" style="display:flex; gap:1rem; max-width:500px; margin:0 auto">
+        <input type="text" id="tracking-id-input" class="form-control" placeholder="Order ID (e.g., EQ-573821)" required style="background:var(--color-white)">
+        <button type="submit" class="btn btn-primary">Track</button>
+      </form>
+
+      <!-- Stepper Progress (Hidden initially or updated via JS) -->
+      <div class="tracking-stepper" id="tracking-stepper">
+        <div class="tracking-step-fill"></div>
+        <div class="tracking-step">
+          <div class="step-node">1</div>
+          <span class="step-label">Placed</span>
+        </div>
+        <div class="tracking-step">
+          <div class="step-node">2</div>
+          <span class="step-label">Processing</span>
+        </div>
+        <div class="tracking-step">
+          <div class="step-node">3</div>
+          <span class="step-label">Shipped</span>
+        </div>
+        <div class="tracking-step">
+          <div class="step-node">4</div>
+          <span class="step-label">Out For Delivery</span>
+        </div>
+        <div class="tracking-step">
+          <div class="step-node">5</div>
+          <span class="step-label">Delivered</span>
+        </div>
+      </div>
+
+      <!-- Detail Report Section -->
+      <div id="tracking-status-details" style="text-align:center">
+        <!-- Rendered dynamically by app.js -->
+        <p style="color:var(--color-gray); font-size:0.9rem; margin-top:2rem">Please enter a valid order ID above to trace status.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="main-footer section-padding"></footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="blogs.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

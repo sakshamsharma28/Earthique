@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Skincare Products – Earthique</title>
+  <meta name="description" content="Browse the complete Earthique natural herbal skincare collection. Filter by skin concerns like dry skin, acne, aging, and categories like serums and cleansers.">
+  <meta name="keywords" content="Earthique shop, organic serums, herbal face wash, anti aging creams, clean sunscreen online">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar & Header -->
+  <div id="announcement-bar"></div>
+  <header id="main-header" class="main-header"></header>
+
+  <!-- ==========================================
+       Shop Page Header
+       ========================================== -->
+  <div class="policy-page-header">
+    <div class="container text-center">
+      <h1 style="font-family:var(--font-serif); margin-bottom:1rem;">Earthique Collection</h1>
+      <p style="max-width:600px; margin:0 auto;">Pure herbal formulations curated to refine, balance, and rejuvenate your skin barrier.</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Shop Page Grid Layout
+       ========================================== -->
+  <div class="container section-padding" style="padding-top: 0;">
+    <div class="shop-layout">
+      <!-- Left Sidebar: Filters -->
+      <aside class="shop-sidebar-wrapper">
+        <h3 class="shop-sidebar-title">Refine By</h3>
+        
+        <!-- Filter Category -->
+        <div class="filter-group">
+          <h4 class="filter-title">Category</h4>
+          <div class="filter-list">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Face Wash" class="filter-checkbox category-checkbox">
+              <span>Face Wash</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Cleanser" class="filter-checkbox category-checkbox">
+              <span>Cleanser</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Serum" class="filter-checkbox category-checkbox">
+              <span>Serum</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Moisturizer" class="filter-checkbox category-checkbox">
+              <span>Moisturizer</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Sunscreen" class="filter-checkbox category-checkbox">
+              <span>Sunscreen</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Face Mask" class="filter-checkbox category-checkbox">
+              <span>Face Mask</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Toner" class="filter-checkbox category-checkbox">
+              <span>Toner</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Body Care" class="filter-checkbox category-checkbox">
+              <span>Body Care</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Lip Care" class="filter-checkbox category-checkbox">
+              <span>Lip Care</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Hair Care" class="filter-checkbox category-checkbox">
+              <span>Hair Care</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Skin Concern -->
+        <div class="filter-group">
+          <h4 class="filter-title">Skin Concern</h4>
+          <div class="filter-list">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Acne & Pimples" class="filter-checkbox concern-checkbox">
+              <span>Acne & Pimples</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Dry Skin" class="filter-checkbox concern-checkbox">
+              <span>Dry Skin</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Oily Skin" class="filter-checkbox concern-checkbox">
+              <span>Oily Skin</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Sensitive Skin" class="filter-checkbox concern-checkbox">
+              <span>Sensitive Skin</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Pigmentation" class="filter-checkbox concern-checkbox">
+              <span>Pigmentation</span>
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" value="Anti Aging" class="filter-checkbox concern-checkbox">
+              <span>Anti-Aging</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Price Range -->
+        <div class="filter-group">
+          <h4 class="filter-title">Max Price</h4>
+          <div class="price-range-wrapper">
+            <input type="range" min="400" max="2000" value="2000" step="50" class="price-slider" id="price-range-slider">
+            <div class="price-values">
+              <span>₹400</span>
+              <span id="price-range-val" style="font-weight:600; color:var(--color-sage-dark);">₹2000</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" onclick="resetFilters()" style="width:100%; padding:0.6rem 0; font-size:0.8rem">Reset Filters</button>
+      </aside>
+
+      <!-- Right Main: Controls and Grid -->
+      <div>
+        <div class="shop-controls">
+          <span class="results-count" id="shop-results-count">12 products found</span>
+          <div class="sort-select-wrapper">
+            <label for="shop-sort">Sort By:</label>
+            <select class="sort-select" id="shop-sort">
+              <option value="featured">Featured Favorites</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div class="shop-products-grid" id="shop-products-grid">
+          <!-- Loaded dynamically from app.js -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+          <button class="pagination-btn active">1</button>
+          <button class="pagination-btn">2</button>
+          <button class="pagination-btn">&raquo;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="main-footer section-padding"></footer>
+
+  <!-- Core Javascript files -->
+  <script src="products.js"></script>
+  <script src="blogs.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

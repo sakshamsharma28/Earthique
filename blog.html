@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Beauty Journal: Skincare Tips & Guides – Earthique</title>
+  <meta name="description" content="Discover skincare tips, ingredient guides, routines, and wellness advice from Earthique skincare experts. Learn how to layer and care for your skin barrier.">
+  <meta name="keywords" content="skincare blog, natural beauty tips, double cleansing guide, organic active ingredients, clean wellness routine">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar & Header -->
+  <div id="announcement-bar"></div>
+  <header id="main-header" class="main-header"></header>
+
+  <!-- ==========================================
+       Blog Header
+       ========================================== -->
+  <div class="policy-page-header">
+    <div class="container text-center">
+      <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; color:var(--color-sage-dark); font-weight:600;">The Botanical Journal</span>
+      <h1 style="font-family:var(--font-serif); margin-top:0.5rem; margin-bottom:1rem;">Clean Beauty Journal</h1>
+      <p style="max-width:600px; margin:0 auto;">Your educational resource for herbal actives, dermatologist tips, and clean wellness practices.</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Blog Filter Bar & Grid
+       ========================================== -->
+  <div class="container section-padding" style="padding-top: 0;">
+    <!-- Categories Filter Bar -->
+    <div class="blog-categories-bar">
+      <button class="blog-cat-btn active" onclick="filterBlogCategory('All', this)">All Articles</button>
+      <button class="blog-cat-btn" onclick="filterBlogCategory('Skincare Tips', this)">Skincare Tips</button>
+      <button class="blog-cat-btn" onclick="filterBlogCategory('Ingredients Guide', this)">Ingredients Guide</button>
+      <button class="blog-cat-btn" onclick="filterBlogCategory('Beauty Routine', this)">Beauty Routine</button>
+      <button class="blog-cat-btn" onclick="filterBlogCategory('Wellness', this)">Wellness</button>
+      <button class="blog-cat-btn" onclick="filterBlogCategory('Product Education', this)">Product Education</button>
+    </div>
+
+    <!-- Blog Cards Grid -->
+    <div class="blog-grid" id="blog-grid-view">
+      <!-- Loaded dynamically from app.js -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="main-footer section-padding"></footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="blogs.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
